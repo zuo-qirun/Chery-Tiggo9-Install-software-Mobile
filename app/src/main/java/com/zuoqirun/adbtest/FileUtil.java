@@ -40,18 +40,16 @@ public class FileUtil {
             // 遍历每个内容
             for (String entry : assetsEntries) {
                 String entryPath = assetsDir.isEmpty() ? entry : assetsDir + "/" + entry;
-
-                // 判断是文件还是目录
                 if (IsDirectoryInAssets(assetManager, entryPath)) {
-                    // Log.d("FileUtil", "copyAssetsDirToFilesDir: " + entryPath + " is a directory");
-                    // 如果是目录，递归拷贝
-                    String subDirPath = assetsDir.isEmpty() ? entry + "/" : assetsDir + "/" + entry + "/";
-                    copyAssetsDirToFilesDir(context, subDirPath, filesDir + "/" + entry);
-                } else {
                     // 如果是文件，拷贝到目标文件夹
                     Log.d("FileUtil", "copyAssetsDirToFilesDir: " + entryPath + " is a file");
                     String fileName = entryPath.substring(entryPath.lastIndexOf("/") + 1);
                     FileUtil.copyAssetFileToAppDir(context, entryPath, filesDir + "/" + fileName);
+                }else {
+                    // 如果是目录，递归拷贝
+                    Log.d("FileUtil", "copyAssetsDirToFilesDir: " + entryPath + " is a directory");
+                    String subDirPath = assetsDir.isEmpty() ? entry : assetsDir + "/" + entry;
+                    copyAssetsDirToFilesDir(context, subDirPath, filesDir + "/" + entry);
                 }
             }
 
@@ -68,16 +66,12 @@ public class FileUtil {
      * @return 如果路径是一个子目录，则返回 true，否则返回 false
      */
     private static boolean IsDirectoryInAssets(AssetManager assetManager, String path) {
-        /*
         try {
             // 列出传入路径下的内容，如果返回非空数组，则认为是目录
-            return assetManager.list(path) != null;
+            return !(assetManager.list(path).length > 0);
         } catch (IOException e) {
-            return false;
+            return true;
         }
-        */
-        Log.d("isDirectoryInAssets", "IsDirectoryInAssets: " + path + "false");
-        return false;
     }
 
     /**
