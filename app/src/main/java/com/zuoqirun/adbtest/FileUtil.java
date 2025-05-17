@@ -25,8 +25,10 @@ public class FileUtil {
 
             // 拼接目标文件夹路径
             File targetDir = new File(context.getFilesDir(), filesDir);
-            if (!targetDir.exists()) {
-                targetDir.mkdirs(); // 如果文件夹不存在，创建它
+            Log.d("FileUtil", "copyAssetsDirToFilesDir: " + targetDir.getAbsolutePath());
+            if (!IsFilesInAssets(assetManager, assetsDir)) {
+                Log.d("FileUtil", "copyAssetsDirToFilesDir: " + targetDir.getAbsolutePath() + " does not exist, create it");
+                targetDir.mkdirs(); // 如果目标文件夹不存在，创建它
             }
 
             // 列出 assets 目录下的内容
@@ -40,7 +42,7 @@ public class FileUtil {
             // 遍历每个内容
             for (String entry : assetsEntries) {
                 String entryPath = assetsDir.isEmpty() ? entry : assetsDir + "/" + entry;
-                if (IsDirectoryInAssets(assetManager, entryPath)) {
+                if (IsFilesInAssets(assetManager, entryPath)) {
                     // 如果是文件，拷贝到目标文件夹
                     Log.d("FileUtil", "copyAssetsDirToFilesDir: " + entryPath + " is a file");
                     String fileName = entryPath.substring(entryPath.lastIndexOf("/") + 1);
@@ -65,7 +67,7 @@ public class FileUtil {
      * @param path        资源路径
      * @return 如果路径是一个子目录，则返回 true，否则返回 false
      */
-    private static boolean IsDirectoryInAssets(AssetManager assetManager, String path) {
+    private static boolean IsFilesInAssets(AssetManager assetManager, String path) {
         try {
             // 列出传入路径下的内容，如果返回非空数组，则认为是目录
             return !(assetManager.list(path).length > 0);
