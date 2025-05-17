@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">adbtest</string>
+    <string name="tv_oncreate">adb及相关文件复制中...</string>
+    <string name="b1">安装软件</string>
+    <string name="copyfailure">ADB及相关文件复制失败</string>
+    <string name="copysuccess">ADB及相关文件复制成功</string>
+</resources>
